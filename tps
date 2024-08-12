@@ -124,7 +124,7 @@ revert(){
 	esac
 
 	# Ask for Confirmation
-	read -p "Do you want to switch back to 64-bit? 🥵 All data in this environment will be lost 😭 [y/N] " answer
+	read -p "Do you want to switch back to 64-bit? 🥵 All data in this environment will be lost 😭 [y/N]" answer
 
 	case "$answer" in
 		Y*|y*) ;;
