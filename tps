@@ -4,7 +4,7 @@
 
 case "$(getprop ro.build.version.release)" in
 	5*|6*)
-		echo "Android 5/6 isn't supported"
+		echo "Android 5/6 isn't supported! 🤡"
 		exit 2
 		;;
 	*) ;;
@@ -24,12 +24,12 @@ print-help(){
 
 	Options:
 	 help - show this info
-	 switch - Switches to 32-bit Mode
-	 revert - Reverts to 64-bit Mode
+	 switch - Switches to 32-bit Mode 🗿💀
+	 revert - Reverts to 64-bit Mode 🤦🏻‍♀️
 
-	NOTE: You would need to re-install all the previously installed packages manually after you switch to 32-bit Mode.
+	NOTE: You will need to re-install all the previously installed packages manually after you switch to 32-bit Mode 🥺
 
-	Termux Prefix Switcher (version 1.0)
+	Termux Prefix Switcher [github.com/realpega/termux-prefix-switcher]
 	EOM
 }
 
@@ -38,7 +38,7 @@ switch(){
 	case "$(uname -m)" in
 		armv8*|armv7*|i*86)
 			cat <<- EOM
-			Cannot Switch Environment: Your device is running in 32-bit
+			Cannot Switch Environment! ❌ Your device is running in 32-bit! 🤡
 			EOM
 			exit 2
 			;;
@@ -46,7 +46,7 @@ switch(){
 	esac
 	# Print some warning message
 	cat <<- EOM
-	WARNING: You are about to enter the world of 32-bit, here's what you will expect when entering to 32-bit
+	⚠️ WARNING: You're about to destroy all your data 🥰 (within Termux 🤡) 32-bit is good for using Wine 🍷 
 
 	* Inconsistency will occur when running 64-bit on 32-bit environment, in some cases with the preloaded termux-exec library, you can usually unset it
 
@@ -54,11 +54,11 @@ switch(){
 
 	* This Script will not track what packages you've installed, so you will need to reinstall them again if possible
 
-	The Installation will begin in 5 seconds, please save all your work to avoid data loss
+	The Installation will begin in 5 seconds & all your data will be lost! 😂
 	EOM
 	sleep 5.5
 
-	echo "[*] Downloading 32-bit termux bootstrap"
+	echo "Downloading 32-bit Termux bootstrap... 🗿💀"
 	case "$(uname -m)" in
 		aarch64)
 			curl --fail --location --output $TEMPDIR/termux-bootstrap.zip.part "$BOOTSTRAP_ARM"
@@ -74,19 +74,19 @@ switch(){
 	if [ -e $TEMPDIR/termux-bootstrap.zip.part ]; then
 		mv $TEMPDIR/termux-bootstrap.zip.part $TEMPDIR/termux-bootstrap.zip
 	else
-		echo "An error has occured, Aborting Installation"
+		echo "An error has occured! Aborting Installation... 🏳️‍🌈"
 		exit 2
 	fi
 
 	# Unpack and remove existing installation
-	echo "[*] Unpacking 32-bit termux bootstrap"
+	echo "Unpacking 32-bit termux bootstrap... 🗿"
 	sleep 3
 	chmod 755 usr -R ||:
 	rm -rf $PREFIX/../usr32-staging
 	unzip -d $PREFIX/../usr32-staging $TEMPDIR/termux-bootstrap.zip
 
 	# Process Symlinks
-	echo "[*] Processing Symlinks"
+	echo "Processing Symlinks... 🐣"
 	cd $PREFIX/../usr32-staging
 	while read s; do
 		ln -s ${s/←/ }
@@ -94,15 +94,15 @@ switch(){
 	rm SYMLINKS.txt
 
 	# Create Second Stage Script
-	echo "[*] Doing Second Stage Setup"
+	echo "Doing Second Stage Setup... 👉🏻👌🏻"
 	cat > $PREFIX/../secondstage-setup.sh <<- EOM
 	#!/system/bin/sh
-	echo "[*] Creating Backup"
+	echo "Creating Backup... 💦"
 	mv usr usr64-backup
-	echo "[*] Switching"
+	echo "Switching... 🗿"
 	mv usr32-staging usr
 	rm secondstage-setup.sh
-	echo "[✓] Done, Please Close and Reopen the app"
+	echo "Done ✅ Please Close and Reopen the app!"
 	sleep 2
 	kill -KILL $PPID
 	EOM
@@ -117,18 +117,18 @@ revert(){
 	# Check if running in 64-bit mode
 	case "$(uname -m)" in
 		aarch64|x86_64)
-			echo "This option is used to switching back to 64-bit, you're already 64-bit"
+			echo "This option is used to switch back to 64-bit. But you're already in 64-bit! 🤦🏻‍♀️🤣"
 			exit 2
 			;;
 		*) ;;
 	esac
 
 	# Ask for Confirmation
-	read -p "Do you want to switch back to 64-bit? All data in this environment will be lost [y/N] " answer
+	read -p "Do you want to switch back to 64-bit? 🥵 All data in this environment will be lost 😭 [y/N] " answer
 
 	case "$answer" in
 		Y*|y*) ;;
-		*) echo "Aborting...."; exit 2 ;;
+		*) echo "Aborting... 🏳️‍🌈"; exit 2 ;;
 	esac
 
 	# Switch back to 64-bit
@@ -136,11 +136,11 @@ revert(){
 
 	# Check if Backup File Exists
 	if [ ! -e usr64-backup ]; then
-		echo "[!] The Backup Directory isn't exists.. Continuing Anyway!"
+		echo "The Backup Directory doesn't exist! 🤦🏻‍♀️ Continuing anyway! 💀"
 	fi
 
 	# Revert Back to 64-bit
-	echo "[*] Purging 32-bit environment"
+	echo "Purging 32-bit environment... 🏳️‍🌈"
 	cat > purge-prefix.sh <<- EOM
 	#!/system/bin/sh
 	chmod 755 usr -R ||:
@@ -148,13 +148,13 @@ revert(){
 
 	# Restore Backup directory if possible"
 	if [ -e usr64-backup ]; then
-		echo "[*] Restoring 64-bit Prefix"
+		echo "Restoring 64-bit Prefix... 🗿"
 		mv usr64-backup usr
 	fi
 
 	rm -rf purge-prefix.sh
 
-	echo "[✓] Done, Please Close and Reopen the app"
+	echo "Done ✅ Please Close and Reopen the app!"
 	sleep 2
 	kill -KILL $PPID
 	EOM
@@ -190,4 +190,4 @@ case "$args" in
 		;;
 esac
 
-# END OF MESSAGE EOM
+# EOF
